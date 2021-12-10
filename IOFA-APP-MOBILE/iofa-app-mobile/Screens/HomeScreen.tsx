@@ -10,8 +10,6 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-  
-  
 } from "react-native";
 import Colors from "../src/depen/Colors";
 //import firebaseUtil from "../utlis/firebaseUtil";
@@ -27,54 +25,47 @@ export default function HomeScreen({ navigation }) {
 
 
 
- /* const SingOut = () => {
-    firebaseUtil.LogOut().catch((e) => {
-      console.log("Sign Out", e);
-      alert("Somthing wrong");
-    });
-    
-  };
-  */
+  /* const SingOut = () => {
+     firebaseUtil.LogOut().catch((e) => {
+       console.log("Sign Out", e);
+       alert("Somthing wrong");
+     });
+     
+   };
+   */
 
   const [ar, setAr] = useState(false);
 
   const categories = ["cat", "cat02"];
 
-  const changeLang =() =>{
+  const changeLang = () => {
     setAr(!ar)
   }
 
   const Card = ({ ServiceItem }) => {
     let navigationRoute = `${ServiceItem.navigatTo}`
     return (
-    
+
       <TouchableOpacity style={styles.CardItem}
-      onPress={() => navigation.navigate(navigationRoute, ServiceItem) }
-    >
-   
-          
-          <View style={styles.CardItemContainer}>
-            
-            <View style={styles.CardItemContainerTopIcon}>
-              <Icon name="arrow-right" size={19} color={Colors.green} />
-            </View>
+        onPress={() => navigation.navigate(navigationRoute, ServiceItem)}
+      >
+        <View style={styles.CardItemContainer}>
+          <View style={styles.CardItemContainerTopIcon}>
+            <Icon name="arrow-right" size={19} color={Colors.green} />
           </View>
+        </View>
 
-          <View style={styles.CardItemImage}>
-            <Image
-              source={ServiceItem.img}
-              //style={{ flex: 1, resizeMode: "contain" }}
-              style={styles.CardItemImageimg}
+        <View style={styles.CardItemImage}>
+          <Image
+            source={ServiceItem.img}
+            //style={{ flex: 1, resizeMode: "contain" }}
+            style={styles.CardItemImageimg}
+          />
+        </View>
+        <Text style={styles.CardTitle}>{ServiceItem.name}</Text>
+      </TouchableOpacity>
 
-            />
-          </View>
 
-          <Text style={styles.CardTitle}>{ServiceItem.name}</Text>
-        
-
-        </TouchableOpacity>
-
-     
     );
   };
 
@@ -87,18 +78,18 @@ export default function HomeScreen({ navigation }) {
         </View>
 
         <View style={styles.notificatonContainer}
-                      
+
         >
-        
-              <Text style={styles.Lang} onPress={() => changeLang()}>
-                {ar? `AR`: `FR` }
-              </Text>
-           
-            
+
+          <Text style={styles.Lang} onPress={() => changeLang()}>
+            {ar ? `AR` : `FR`}
+          </Text>
+
+
           <View style={styles.notificatonIcon}>
-            
+
             <Icon
-            onPress={() => {} /*navigation.navigate("Notifications")*/}
+              onPress={() => { } /*navigation.navigate("Notifications")*/}
               name="bell"
               size={27}
               color="orange"
@@ -119,9 +110,10 @@ export default function HomeScreen({ navigation }) {
             size={24}
             color="grey"
           />
-          
+
           <TextInput
             placeholder="Search"
+            placeholderTextColor={Colors.grey}
             style={styles.HomeScreenSearchInput}
           />
         </View>
@@ -129,12 +121,11 @@ export default function HomeScreen({ navigation }) {
           <Icon name="bars" color={Colors.white} size={30} />
         </TouchableOpacity>
       </View>
-
       {/* <FlatList numColumns={2} data={UploadItemsOrder}  renderItem={(item) => <Card SerItem={item} ></Card>   } /> */}
       <FlatList
         style={styles.FlatListStyle}
         numColumns={2}
-        data={!ar? UploadItemsOrder : UploadItemsOrderAr}
+        data={!ar ? UploadItemsOrder : UploadItemsOrderAr}
         renderItem={({ item }) => {
           return <Card ServiceItem={item} />;
         }}
@@ -207,8 +198,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 18,
     padding: 15,
-    display:'flex',
-    },
+    display: 'flex',
+  },
   FlatListStyle: {},
   CardItemContainer: {
     alignItems: "flex-end",
@@ -225,22 +216,23 @@ const styles = StyleSheet.create({
     height: 100,
     alignItems: "center",
   },
-  CardItemImageimg:{
+  CardItemImageimg: {
     flex: 1,
-    resizeMode:'contain',
-    width:'100%',
+    resizeMode: 'contain',
+    width: '100%',
     height: '100%',
   },
 
   CardTitle: {
     fontSize: 17,
+    color: Colors.green,
+    textAlign: 'center',
     fontWeight: "700",
     marginTop: 14,
   },
   notificatonContainer: {
     position: "relative",
-    
-    minWidth : 60
+    minWidth: 60
   },
   notificatonIcon: {
     position: "absolute",
@@ -267,11 +259,11 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
   },
-  Lang:{
-    fontSize:20,
-    fontWeight:'700',
+  Lang: {
+    fontSize: 20,
+    fontWeight: '700',
     position: "absolute",
     right: 50,
-   
+
   }
 });
