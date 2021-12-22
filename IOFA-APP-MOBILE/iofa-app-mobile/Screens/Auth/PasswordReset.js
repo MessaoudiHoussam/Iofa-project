@@ -26,6 +26,7 @@ const Reset = ({ navigation }) => {
       setActive(false)
     }
   };
+
   return (
     <View style={styles.wrapper}>
       <View>
@@ -46,9 +47,9 @@ const Reset = ({ navigation }) => {
           style={isSended ? styles.disabled : styles.button}
           onPress={resetPassword}>
           {active ?
-            (<ActivityIndicator size="large" color="#fff" />)
+            <ActivityIndicator size="large" color="#fff" />
             :
-            (<Text style={styles.buttonText}>Change password</Text>)
+            <Text style={styles.buttonText}>Change password</Text>
           }
         </TouchableOpacity>
 
