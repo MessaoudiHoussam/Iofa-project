@@ -19,7 +19,7 @@ import Loading from './Screens/Auth/Loading';
 import Login from './Screens/Auth/Login';
 import Register from './Screens/Auth/Register';
 import Reset from './Screens/Auth/PasswordReset';
-import Profile from './Screens/SubScreens/Profile';
+import Home from './Screens/Home';
 
 const Stack = createNativeStackNavigator();
 
@@ -70,8 +70,7 @@ export default function App() {
               </>
               :
               <>
-                <Stack.Screen name="Home" component={HomeScreen} options={globalHeaderOptions} />
-                <Stack.Screen name="Profile" component={Profile} options={globalHeaderOptions} />
+                <Stack.Screen name="Main" component={Home} options={globalHeaderOptions} />
                 <Stack.Screen name="PumbScreen" component={Pump} options={globalHeaderOptions} />
                 <Stack.Screen name="PumpWatering" component={PumpWatering} options={globalHeaderOptions} />
                 <Stack.Screen name="DashbardAndMap" component={DashbardAndMap} options={globalHeaderOptions} />
