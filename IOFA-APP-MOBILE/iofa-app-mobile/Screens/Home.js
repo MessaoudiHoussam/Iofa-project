@@ -27,6 +27,7 @@ const Home = () => {
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: {
           height: 73,
+          backgroundColor: Colors.dark,
           position: 'absolute',
           paddingBottom: 10,
           borderTopLeftRadius: 22,
