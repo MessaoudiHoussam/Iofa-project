@@ -3,67 +3,43 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
-  Button,
   Dimensions,
   FlatList,
   Image,
-  TouchableOpacity,
+  TouchableHighlight,
   SafeAreaView,
 } from "react-native";
 import Colors from "../src/depen/Colors";
-//import firebaseUtil from "../utlis/firebaseUtil";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/AntDesign";
 import UploadItemsOrder from "../src/depen/UploadItemsOrder";
-//import { color } from "react-native-reanimated";
 import UploadItemsOrderAr from "../src/depen/UploadItemsOrderAr";
-//import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const WidthItem = Dimensions.get("window").width / 2 - 30;
 
 export default function HomeScreen({ navigation }) {
 
-
-
-  /* const SingOut = () => {
-     firebaseUtil.LogOut().catch((e) => {
-       console.log("Sign Out", e);
-       alert("Somthing wrong");
-     });
-     
-   };
-   */
-
   const [ar, setAr] = useState(false);
-
   const categories = ["cat", "cat02"];
-
-  const changeLang = () => {
-    setAr(!ar)
-  }
 
   const Card = ({ ServiceItem }) => {
     let navigationRoute = `${ServiceItem.navigatTo}`
     return (
 
-      <TouchableOpacity style={styles.CardItem}
+      <TouchableHighlight
+        style={styles.CardItem}
+        underlayColor="#00b76180"
         onPress={() => navigation.navigate(navigationRoute, ServiceItem)}
       >
-        <View style={styles.CardItemContainer}>
-          <View style={styles.CardItemContainerTopIcon}>
-            <Icon name="arrow-right" size={19} color={Colors.green} />
+        <>
+          <View style={styles.CardItemImage}>
+            <Image
+              source={ServiceItem.img}
+              style={styles.CardItemImageimg}
+            />
           </View>
-        </View>
-
-        <View style={styles.CardItemImage}>
-          <Image
-            source={ServiceItem.img}
-            //style={{ flex: 1, resizeMode: "contain" }}
-            style={styles.CardItemImageimg}
-          />
-        </View>
-        <Text style={styles.CardTitle}>{ServiceItem.name}</Text>
-      </TouchableOpacity>
+          <Text style={styles.CardTitle}>{ServiceItem.name}</Text>
+        </>
+      </TouchableHighlight>
 
 
     );
@@ -73,57 +49,23 @@ export default function HomeScreen({ navigation }) {
     <SafeAreaView style={styles.HomeScreen}>
       <View style={styles.HomeScreenHeader}>
         <View style={styles.HomeScreenHeaderContainer}>
-          <Icon name="envira" color={Colors.green} size={28} />
-          <Text style={styles.HeaderLogo}> IOFA</Text>
-        </View>
-
-        <View style={styles.notificatonContainer}
-
-        >
-
-          <Text style={styles.Lang} onPress={() => changeLang()}>
-            {ar ? `AR` : `FR`}
-          </Text>
-
-
+          <Text style={styles.HeaderLogo}>Refarm</Text>
           <View style={styles.notificatonIcon}>
-
             <Icon
               onPress={() => { } /*navigation.navigate("Notifications")*/}
-              name="bell"
-              size={27}
-              color="orange"
+              name="bells"
+              size={26}
+              color={Colors.white}
+              style={styles.notificatonIcon}
             />
-          </View>
-
-          <View style={styles.notificatonNumber}>
-            <Text style={styles.notificatonNumberText}> 1 </Text>
+            <View style={styles.notificatonNumber}>
+              <Text style={styles.notificatonNumberText}> 1 </Text>
+            </View>
           </View>
         </View>
       </View>
 
-      <View style={styles.HomeScreenSearchBar}>
-        <View style={styles.HomeScreenSearchContainer}>
-          <Icon
-            name="search"
-            style={{ marginLeft: 19 }}
-            size={24}
-            color="grey"
-          />
-
-          <TextInput
-            placeholder="Search"
-            placeholderTextColor={Colors.grey}
-            style={styles.HomeScreenSearchInput}
-          />
-        </View>
-        <TouchableOpacity style={styles.HomeScreenHomburgerbtn}>
-          <Icon name="bars" color={Colors.white} size={30} />
-        </TouchableOpacity>
-      </View>
-      {/* <FlatList numColumns={2} data={UploadItemsOrder}  renderItem={(item) => <Card SerItem={item} ></Card>   } /> */}
       <FlatList
-        style={styles.FlatListStyle}
         numColumns={2}
         data={!ar ? UploadItemsOrder : UploadItemsOrderAr}
         renderItem={({ item }) => {
@@ -132,8 +74,8 @@ export default function HomeScreen({ navigation }) {
         columnWrapperStyle={{ justifyContent: "space-between" }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          marginTop: 15,
-          paddingBottom: 30,
+          marginTop: 0,
+          paddingBottom: 83,
         }}
       />
     </SafeAreaView>
@@ -145,22 +87,30 @@ const styles = StyleSheet.create({
   HomeScreen: {
     flex: 1,
     paddingHorizontal: 20,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.dark,
   },
   HomeScreenHeader: {
-    marginTop: 20,
+    height: 73,
+    width: Dimensions.get('window').width - 60,
     flexDirection: "row",
+    alignItems: 'center',
     justifyContent: "space-between",
   },
-
+  HeaderRightComponents: {
+    flexDirection: "row-reverse",
+    alignItems: 'center',
+    width: 200,
+    justifyContent: "space-evenly",
+  },
   HomeScreenHeaderContainer: {
     flexDirection: "row",
+    width: Dimensions.get('window').width - 30,
     justifyContent: "space-between",
   },
   HeaderLogo: {
     fontSize: 22,
-    fontWeight: "700",
-    color: "#00b300",
+    fontFamily: 'Poppins-Medium',
+    color: Colors.green,
   },
   HomeScreenSearchBar: {
     marginTop: 30,
@@ -170,7 +120,7 @@ const styles = StyleSheet.create({
   HomeScreenSearchContainer: {
     height: 50,
     backgroundColor: Colors.light,
-    borderRadius: 8,
+    borderRadius: 22,
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
@@ -192,25 +142,14 @@ const styles = StyleSheet.create({
   },
   CardItem: {
     height: 210,
-    backgroundColor: Colors.light,
+    backgroundColor: "#fff",
+    justifyContent: 'space-around',
+    paddingVertical: 20,
     width: WidthItem,
     marginHorizontal: 2,
-    borderRadius: 10,
+    borderRadius: 22,
     marginTop: 18,
     padding: 15,
-    display: 'flex',
-  },
-  FlatListStyle: {},
-  CardItemContainer: {
-    alignItems: "flex-end",
-  },
-  CardItemContainerTopIcon: {
-    width: 25,
-    height: 25,
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#ddd",
   },
   CardItemImage: {
     height: 100,
@@ -222,12 +161,11 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-
   CardTitle: {
-    fontSize: 17,
+    fontSize: 16,
+    fontFamily: 'Poppins-Medium',
     color: Colors.green,
     textAlign: 'center',
-    fontWeight: "700",
     marginTop: 14,
   },
   notificatonContainer: {
@@ -236,10 +174,9 @@ const styles = StyleSheet.create({
   },
   notificatonIcon: {
     position: "absolute",
-    right: 8,
+    right: 10,
     top: 0,
   },
-
   notificatonNumber: {
     width: 20,
     height: 20,
@@ -248,11 +185,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 12,
-    position: "absolute",
-    right: 0,
-    top: -4,
   },
-
   notificatonNumberText: {
     color: "#fff",
     fontSize: 15,
@@ -262,8 +195,6 @@ const styles = StyleSheet.create({
   Lang: {
     fontSize: 20,
     fontWeight: '700',
-    position: "absolute",
-    right: 50,
-
+    color: Colors.dark,
   }
 });
