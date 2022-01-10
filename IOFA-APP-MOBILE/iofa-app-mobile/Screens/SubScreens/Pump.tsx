@@ -32,14 +32,12 @@ const Pump = ({ navigation, route }) => {
   const [meterValue03, setMetreValue03] = useState(0);
 
   const setStartPumbFun = () => {
-    setStartPumb(true);
     setMetreValue(80);
     setMetreValue02(90);
     setMetreValue03(110);
   };
 
   const setEdnPumbFun = () => {
-    setStartPumb(false);
     setMetreValue(0);
     setMetreValue02(0);
     setMetreValue03(0);
@@ -61,6 +59,13 @@ const Pump = ({ navigation, route }) => {
     return () => clearInterval(interval);
   }, [startPumb, remainingSecs]);
 
+  useEffect(() => {
+    const Dbref = database().ref('pump');
+    Dbref.on("value", snapshot => {
+      const data = snapshot.val();
+      setStartPumb(data.status || false)
+    })
+  }, [])
   /* SVG */
   const LineCharpDataEx01 = [
     { month: "Jan", value: 70 },
@@ -108,9 +113,24 @@ const Pump = ({ navigation, route }) => {
   ];
   const TestEvent = () => {
     setTogglePump(!Pump)
-    const Dbref = database().ref('pump')
-    Dbref
-      .update({ status: Pump })
+    const Dbref = database().ref('pump');
+    // Dbref.once("value").then(data => {
+    //   console.log(data)
+    // })
+    Dbref.on("value", snapshot => {
+      const data = snapshot.val();
+      console.log({data})
+    })
+    Dbref.update({ cmd: Pump })
+  }
+  const turnPumpOn = () => {
+    const Dbref = database().ref('pump');
+    
+    Dbref.update({ status: true })
+  }
+  const turnPumpOff = () => {
+    const Dbref = database().ref('pump');
+    Dbref.update({ status: false })
   }
 
   const itemService = route.params;
@@ -129,9 +149,10 @@ const Pump = ({ navigation, route }) => {
         <View style={styles.DetailsScreenImageConatiner}>
           <Image source={itemService.img} style={styles.DetailsScreenImg} />
         </View>
-        <Switch
+        {/* <Switch
           value={Pump}
-          onValueChange={TestEvent} />
+          onValueChange={TestEvent} /> */}
+
         <View style={styles.DetailsScreenInfo}>
           <View style={styles.DetailsScreenInfoTitle}>
             <Text style={styles.DetailsScreenInfoTitleTxt}>Pumb</Text>
@@ -160,13 +181,13 @@ const Pump = ({ navigation, route }) => {
           </View>
 
           <View style={styles.ActionStyle}>
-            <TouchableOpacity onPress={() => setStartPumbFun()}>
+            <TouchableOpacity onPress={turnPumpOn}>
               <View style={styles.ActionStyleBtnGreen}>
                 <Text style={styles.ActionStyleBtnTxt}>ON</Text>
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => setEdnPumbFun()}>
+            <TouchableOpacity onPress={turnPumpOff}>
               <View style={styles.ActionStyleBtnRed}>
                 <Text style={styles.ActionStyleBtnTxt}>OFF</Text>
               </View>
