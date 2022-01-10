@@ -126,11 +126,11 @@ const Pump = ({ navigation, route }) => {
   const turnPumpOn = () => {
     const Dbref = database().ref('pump');
     
-    Dbref.update({ status: true })
+    Dbref.update({ cmd: true })
   }
   const turnPumpOff = () => {
     const Dbref = database().ref('pump');
-    Dbref.update({ status: false })
+    Dbref.update({ cmd: false })
   }
 
   const itemService = route.params;
