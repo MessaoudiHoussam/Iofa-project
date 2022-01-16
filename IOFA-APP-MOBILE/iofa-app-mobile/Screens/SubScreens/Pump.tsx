@@ -32,10 +32,23 @@ const Pump = ({ navigation, route }) => {
   const [meterValue03, setMetreValue03] = useState(0);
 
   const setStartPumbFun = () => {
-    setMetreValue(80);
+    setMetreValue(0);
     setMetreValue02(90);
     setMetreValue03(110);
   };
+  useEffect(() => {
+    const Dbref = database().ref('IGDwxERNDjZ7qKQS4Zb9QMKcLod2');
+    Dbref.on("value", snapshot => {
+      const data = snapshot.val();
+      console.log({data})
+      setMetreValue(data.motor.amp1)
+      setMetreValue02(data.motor.amp2)
+      setMetreValue03(data.motor.amp3)
+
+
+ 
+    })
+  }, [meterValue])
 
   const setEdnPumbFun = () => {
     setMetreValue(0);
@@ -63,9 +76,44 @@ const Pump = ({ navigation, route }) => {
     const Dbref = database().ref('pump');
     Dbref.on("value", snapshot => {
       const data = snapshot.val();
+      console.log({data})
       setStartPumb(data.status || false)
+     
     })
   }, [])
+  const TestEvent = () => {
+    setTogglePump(!Pump)
+    const Dbref = database().ref('pump');
+    // Dbref.once("value").then(data => {
+    //   console.log(data)
+    // })
+    Dbref.on("value", snapshot => {
+      const data = snapshot.val();
+      console.log({data})
+    })
+    Dbref.update({ cmd: Pump })
+  }
+  const turnPumpOn = () => {
+    const Dbref = database().ref('pump');
+    Dbref.update({ cmd: true })
+    Dbref.update({ status: true })
+    
+
+
+  }
+  const turnPumpOff = () => {
+    const Dbref = database().ref('pump');
+    Dbref.update({ cmd: false })
+    Dbref.update({ status: false })
+      setMetreValue(0)
+      setMetreValue02(0)
+      setMetreValue03(0)
+
+ 
+
+  }
+
+  
   /* SVG */
   const LineCharpDataEx01 = [
     { month: "Jan", value: 70 },
@@ -111,27 +159,7 @@ const Pump = ({ navigation, route }) => {
       maxDonutChartData: "100",
     },
   ];
-  const TestEvent = () => {
-    setTogglePump(!Pump)
-    const Dbref = database().ref('pump');
-    // Dbref.once("value").then(data => {
-    //   console.log(data)
-    // })
-    Dbref.on("value", snapshot => {
-      const data = snapshot.val();
-      console.log({data})
-    })
-    Dbref.update({ cmd: Pump })
-  }
-  const turnPumpOn = () => {
-    const Dbref = database().ref('pump');
-    
-    Dbref.update({ cmd: true })
-  }
-  const turnPumpOff = () => {
-    const Dbref = database().ref('pump');
-    Dbref.update({ cmd: false })
-  }
+  
 
   const itemService = route.params;
 
@@ -144,6 +172,10 @@ const Pump = ({ navigation, route }) => {
             size={26}
             color={Colors.green}
             onPress={() => navigation.navigate("Home")}
+
+
+
+            
           />
         </View>
         <View style={styles.DetailsScreenImageConatiner}>
