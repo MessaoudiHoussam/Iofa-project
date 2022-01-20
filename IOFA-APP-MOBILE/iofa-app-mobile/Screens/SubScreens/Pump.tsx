@@ -30,6 +30,9 @@ const Pump = ({ navigation, route }) => {
   const [meterValue, setMetreValue] = useState(0);
   const [meterValue02, setMetreValue02] = useState(0);
   const [meterValue03, setMetreValue03] = useState(0);
+  const [meterValueAmp1, setMeterValueAmp1] = useState(0);
+  const [meterValueAmp2, setMeterValueAmp2] = useState(0);
+  const [meterValueAmp3, setMeterValueAmp3] = useState(0);
 
   const setStartPumbFun = () => {
     setMetreValue(0);
@@ -41,14 +44,22 @@ const Pump = ({ navigation, route }) => {
     Dbref.on("value", snapshot => {
       const data = snapshot.val();
       console.log({data})
-      setMetreValue(data.motor.amp1)
-      setMetreValue02(data.motor.amp2)
-      setMetreValue03(data.motor.amp3)
-
-
+      setMetreValue(data.motor.ph1)
+      setMetreValue02(data.motor.ph2)
+      setMetreValue03(data.motor.ph3)
  
     })
-  }, [meterValue])
+  }, []);
+  useEffect(() => {
+    const Dbref = database().ref('IGDwxERNDjZ7qKQS4Zb9QMKcLod2');
+    Dbref.on("value", snapshot => {
+      const data = snapshot.val();
+      console.log({data})
+      setMeterValueAmp1(data.motor.amp1)
+      setMeterValueAmp2(data.motor.amp2)
+      setMeterValueAmp3(data.motor.amp3)
+    })
+  }, [])
 
   const setEdnPumbFun = () => {
     setMetreValue(0);
@@ -105,9 +116,9 @@ const Pump = ({ navigation, route }) => {
     const Dbref = database().ref('pump');
     Dbref.update({ cmd: false })
     Dbref.update({ status: false })
-      setMetreValue(0)
-      setMetreValue02(0)
-      setMetreValue03(0)
+      // setMetreValue(0)
+      // setMetreValue02(0)
+      // setMetreValue03(0)
 
  
 
@@ -166,7 +177,7 @@ const Pump = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.DetailsScreen}>
       <ScrollView nestedScrollEnabled={false}>
-        <View style={styles.DetailsScreenHeader}>
+      <View style={styles.DetailsScreenHeader}>
           <Icon
             name="arrow-left"
             size={26}
@@ -252,6 +263,9 @@ const Pump = ({ navigation, route }) => {
               minValue={0}
               maxValue={400}
               allowedDecimals={0}
+              innerCircleStyle={{
+                backgroundColor:Colors.dark,
+              }}
               labels={[
                 {
                   name: "PH1",
@@ -260,12 +274,12 @@ const Pump = ({ navigation, route }) => {
                 },
 
                 {
-                  name: "PH2",
+                  name: "PH1",
                   labelColor: "red",
                   activeBarColor: "orange",
                 },
                 {
-                  name: "PH3",
+                  name: "PH1",
                   labelColor: "red",
                   activeBarColor: "red",
                 },
@@ -300,22 +314,22 @@ const Pump = ({ navigation, route }) => {
               maxValue={400}
               allowedDecimals={0}
               innerCircleStyle={{
-                backgroundColor: Colors.dark,
+                backgroundColor:"transparent",
               }}
               labels={[
                 {
-                  name: "P1",
+                  name: "PH2",
                   labelColor: "green",
                   activeBarColor: "transparent",
                 },
 
                 {
-                  name: "PH11",
+                  name: "PH2",
                   labelColor: "green",
                   activeBarColor: "transparent",
                 },
                 {
-                  name: "PH01",
+                  name: "PH2",
                   labelColor: "green",
                   activeBarColor: "transparent",
                 },
@@ -354,22 +368,22 @@ const Pump = ({ navigation, route }) => {
               maxValue={400}
               allowedDecimals={0}
               innerCircleStyle={{
-                backgroundColor: Colors.dark,
+                backgroundColor:"transparent",
               }}
               labels={[
                 {
-                  name: "PH12",
+                  name: "PH3",
                   labelColor: "blue",
                   activeBarColor: "transparent",
                 },
 
                 {
-                  name: "PH52",
+                  name: "PH3",
                   labelColor: "blue",
                   activeBarColor: "transparent",
                 },
                 {
-                  name: "PH62",
+                  name: "PH3",
                   labelColor: "blue",
                   activeBarColor: "transparent",
                 },
@@ -419,20 +433,23 @@ const Pump = ({ navigation, route }) => {
         <View style={styles.RNSpeedometerContainer}>
           <View style={styles.RNSpeedometerItem}>
             <RNSpeedometer
-              value={meterValue}
+              value={meterValueAmp1}
               minValue={0}
               maxValue={100}
+              innerCircleStyle={{
+                backgroundColor:Colors.dark,
+              }}
               allowedDecimals={0}
               labels={[
                 {
-                  name: "P00",
+                  name: "P1",
                   labelColor: "red",
                   activeBarColor: "green",
                 },
 
 
                 {
-                  name: "P0",
+                  name: "P1",
                   labelColor: "red",
                   activeBarColor: "orange",
                 },
@@ -461,27 +478,27 @@ const Pump = ({ navigation, route }) => {
 
           <View style={styles.RNSpeedometerItem}>
             <RNSpeedometer
-              value={meterValue02}
+              value={meterValueAmp2}
               minValue={0}
               maxValue={100}
               allowedDecimals={0}
               innerCircleStyle={{
-                backgroundColor: Colors.dark,
+                backgroundColor:"transparent",
               }}
               labels={[
                 {
-                  name: "P12",
+                  name: "P2",
                   labelColor: "green",
                   activeBarColor: "transparent",
                 },
 
                 {
-                  name: "P1222",
+                  name: "P2",
                   labelColor: "green",
                   activeBarColor: "transparent",
                 },
                 {
-                  name: "P45",
+                  name: "P2",
                   labelColor: "green",
                   activeBarColor: "transparent",
                 },
@@ -520,27 +537,27 @@ const Pump = ({ navigation, route }) => {
 
           <View style={styles.RNSpeedometerItem}>
             <RNSpeedometer
-              value={meterValue03}
+              value={meterValueAmp3}
               minValue={0}
               maxValue={100}
               allowedDecimals={0}
               innerCircleStyle={{
-                backgroundColor: Colors.dark,
+                backgroundColor:"transparent",
               }}
               labels={[
                 {
-                  name: "P2",
+                  name: "P3",
                   labelColor: "blue",
                   activeBarColor: "transparent",
                 },
 
                 {
-                  name: "P22",
+                  name: "P3",
                   labelColor: "blue",
                   activeBarColor: "transparent",
                 },
                 {
-                  name: "P222",
+                  name: "P3",
                   labelColor: "blue",
                   activeBarColor: "transparent",
                 },
@@ -598,7 +615,8 @@ const Pump = ({ navigation, route }) => {
               maxValue={100}
               allowedDecimals={0}
               innerCircleStyle={{
-                backgroundColor: Colors.dark,
+                backgroundColor:Colors.dark,
+
               }}
               labels={[
                 {
@@ -680,4 +698,3 @@ const Pump = ({ navigation, route }) => {
 };
 
 export default Pump;
-

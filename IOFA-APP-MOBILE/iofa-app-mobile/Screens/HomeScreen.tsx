@@ -13,6 +13,7 @@ import Colors from "../src/depen/Colors";
 import Icon from "react-native-vector-icons/AntDesign";
 import UploadItemsOrder from "../src/depen/UploadItemsOrder";
 import UploadItemsOrderAr from "../src/depen/UploadItemsOrderAr";
+import Sitting from "../Screens/Sitting";
 
 const WidthItem = Dimensions.get("window").width / 2 - 30;
 
@@ -49,7 +50,7 @@ export default function HomeScreen({ navigation }) {
     <SafeAreaView style={styles.HomeScreen}>
       <View style={styles.HomeScreenHeader}>
         <View style={styles.HomeScreenHeaderContainer}>
-          <Text style={styles.HeaderLogo}>Refarm</Text>
+          {/* <Text style={styles.HeaderLogo} onPress={()=> Sitting()}>Refarm</Text> */}
           <View style={styles.notificatonIcon}>
             <Icon
               onPress={() => { } /*navigation.navigate("Notifications")*/}
